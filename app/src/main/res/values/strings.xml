@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">بقالة الحي</string>
+    <string name="app_slogan">كل احتياجاتك بين يديك</string>
+
+    <!-- Auth -->
+    <string name="login">تسجيل الدخول</string>
+    <string name="register">إنشاء حساب جديد</string>
+    <string name="phone_number">رقم الجوال</string>
+    <string name="enter_phone">أدخل رقم الجوال</string>
+    <string name="enter_otp">أدخل رمز التحقق</string>
+    <string name="otp_sent">تم إرسال رمز التحقق إلى</string>
+    <string name="verify">تحقق</string>
+    <string name="resend_otp">إعادة إرسال الرمز</string>
+    <string name="login_with_google">تسجيل الدخول بحساب Google</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="enter_name">أدخل اسمك الكامل</string>
+    <string name="already_have_account">لديك حساب بالفعل؟</string>
+    <string name="dont_have_account">ليس لديك حساب؟</string>
+
+    <!-- Home -->
+    <string name="home">الرئيسية</string>
+    <string name="search">بحث</string>
+    <string name="search_hint">ابحث عن منتج أو بقالة...</string>
+    <string name="nearby_stores">البقالات القريبة</string>
+    <string name="all_stores">جميع البقالات</string>
+    <string name="featured_products">منتجات مميزة</string>
+    <string name="categories">الأقسام</string>
+    <string name="see_all">عرض الكل</string>
+
+    <!-- Cart -->
+    <string name="cart">السلة</string>
+    <string name="cart_empty">سلتك فارغة</string>
+    <string name="cart_empty_desc">أضف منتجات من البقالات القريبة</string>
+    <string name="total">الإجمالي</string>
+    <string name="delivery_fee">رسوم التوصيل</string>
+    <string name="grand_total">المجموع الكلي</string>
+    <string name="checkout">إتمام الطلب</string>
+    <string name="add_to_cart">أضف للسلة</string>
+    <string name="remove">حذف</string>
+
+    <!-- Order -->
+    <string name="orders">طلباتي</string>
+    <string name="order_details">تفاصيل الطلب</string>
+    <string name="order_number">رقم الطلب</string>
+    <string name="order_date">تاريخ الطلب</string>
+    <string name="delivery_method">طريقة الاستلام</string>
+    <string name="pickup">استلام من المحل</string>
+    <string name="delivery">توصيل للمنزل</string>
+    <string name="delivery_address">عنوان التوصيل</string>
+    <string name="enter_address">أدخل عنوان التوصيل</string>
+    <string name="payment_method">طريقة الدفع</string>
+    <string name="cash_only">الدفع عند الاستلام (كاش)</string>
+    <string name="place_order">تأكيد الطلب</string>
+
+    <!-- Order Status -->
+    <string name="status_pending">قيد الانتظار</string>
+    <string name="status_confirmed">تم التأكيد</string>
+    <string name="status_preparing">جاري التحضير</string>
+    <string name="status_delivering">جاري التوصيل</string>
+    <string name="status_delivered">تم التوصيل</string>
+    <string name="status_cancelled">ملغي</string>
+    <string name="track_order">تتبع الطلب</string>
+
+    <!-- Map -->
+    <string name="map">الخريطة</string>
+    <string name="nearby_on_map">البقالات القريبة على الخريطة</string>
+    <string name="location_permission">نحتاج إذن الموقع لإيجاد أقرب بقالة</string>
+    <string name="allow_location">السماح بالوصول للموقع</string>
+    <string name="km_away">كم</string>
+    <string name="open_now">مفتوح الآن</string>
+    <string name="closed">مغلق</string>
+
+    <!-- Profile -->
+    <string name="profile">الملف الشخصي</string>
+    <string name="my_orders">طلباتي</string>
+    <string name="settings">الإعدادات</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="logout_confirm">هل تريد تسجيل الخروج؟</string>
+
+    <!-- General -->
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="save">حفظ</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="error_occurred">حدث خطأ، حاول مجدداً</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="sar">ر.س</string>
+    <string name="back">رجوع</string>
+</resources>
