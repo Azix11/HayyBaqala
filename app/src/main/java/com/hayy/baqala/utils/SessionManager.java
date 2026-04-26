@@ -12,6 +12,7 @@ public class SessionManager {
     private static final String KEY_USER_PHONE = "userPhone";
     private static final String KEY_USER_EMAIL = "userEmail";
     private static final String KEY_LOGIN_TYPE = "loginType";
+    private static final String KEY_IS_ADMIN = "isAdmin";
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -36,7 +37,12 @@ public class SessionManager {
         editor.putString(KEY_USER_PHONE, phone);
         editor.putString(KEY_USER_EMAIL, email);
         editor.putString(KEY_LOGIN_TYPE, loginType);
+        editor.putBoolean(KEY_IS_ADMIN, Constants.STORE_ADMIN_PHONE.equals(phone));
         editor.apply();
+    }
+
+    public boolean isAdmin() {
+        return pref.getBoolean(KEY_IS_ADMIN, false);
     }
 
     public boolean isLoggedIn() {

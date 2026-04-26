@@ -44,6 +44,7 @@
 
         <!-- Orders -->
         <activity android:name=".ui.orders.OrderTrackingActivity" android:exported="false"/>
+        <activity android:name=".ui.orders.StoreAdminActivity" android:exported="false"/>
 
         <!-- Main (unused) -->
         <activity android:name=".MainActivity" android:exported="false"/>
