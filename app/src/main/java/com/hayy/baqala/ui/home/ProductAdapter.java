@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.hayy.baqala.R;
 import com.hayy.baqala.database.AppDatabase;
 import com.hayy.baqala.database.entities.CartItem;
@@ -54,10 +55,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.tvUnit.setVisibility(View.GONE);
         }
 
-        holder.btnAddToCart.setOnClickListener(v -> addToCart(product));
+        holder.btnAddToCart.setOnClickListener(v -> {
+            String notes = holder.etNotes.getText() != null
+                    ? holder.etNotes.getText().toString().trim()
+                    : "";
+            addToCart(product, notes);
+        });
     }
 
-    private void addToCart(Product product) {
+    private void addToCart(Product product, String notes) {
         int userId = session.getUserId();
         if (userId == -1) {
             Toast.makeText(context, "يرجى تسجيل الدخول", Toast.LENGTH_SHORT).show();
@@ -68,6 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         if (existingItem != null) {
             existingItem.setQuantity(existingItem.getQuantity() + 1);
+            if (!notes.isEmpty()) existingItem.setNotes(notes);
             db.cartDao().updateCartItem(existingItem);
             Toast.makeText(context, "تمت الإضافة ✓", Toast.LENGTH_SHORT).show();
         } else {
@@ -78,6 +85,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     product.getName(),
                     product.getPrice()
             );
+            if (!notes.isEmpty()) cartItem.setNotes(notes);
             db.cartDao().insertCartItem(cartItem);
             Toast.makeText(context, "أضيف للسلة ✓", Toast.LENGTH_SHORT).show();
         }
@@ -92,6 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         ImageView ivProduct;
         TextView tvName, tvPrice, tvUnit;
         MaterialButton btnAddToCart;
+        TextInputEditText etNotes;
 
         ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +109,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvUnit = itemView.findViewById(R.id.tvUnit);
             btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
+            etNotes = itemView.findViewById(R.id.etNotes);
         }
     }
 }

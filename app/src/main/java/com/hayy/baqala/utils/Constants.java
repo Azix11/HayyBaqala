@@ -34,6 +34,9 @@ public class Constants {
     public static final double DELIVERY_FEE = 10.0;
     public static final double MIN_ORDER_AMOUNT = 20.0;
 
+    // Store Admin
+    public static final String STORE_ADMIN_PHONE = "0500000000";
+
     // Shared Preferences
     public static final String PREF_NAME = "HayyBaqalaSession";
 
