@@ -31,6 +31,9 @@ public class CartItem {
     @ColumnInfo(name = "quantity")
     public int quantity;
 
+    @ColumnInfo(name = "notes")
+    public String notes;
+
     public CartItem() {}
 
     public CartItem(int userId, int productId, int storeId, String productName, double price) {
@@ -63,4 +66,6 @@ public class CartItem {
     public void setProductImage(String productImage) { this.productImage = productImage; }
     public void setPrice(double price) { this.price = price; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }

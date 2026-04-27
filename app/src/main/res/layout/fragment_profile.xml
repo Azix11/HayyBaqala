@@ -66,6 +66,50 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Store Admin Panel (مخفي للمستخدمين العاديين) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardAdminPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="#E8F5E9">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_store_white"
+                        app:tint="@color/primary"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="إدارة طلبات البقالة"
+                        android:textSize="16sp"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:paddingStart="12dp"/>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_back"
+                        android:rotation="180"
+                        app:tint="@color/primary"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <!-- My Orders -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

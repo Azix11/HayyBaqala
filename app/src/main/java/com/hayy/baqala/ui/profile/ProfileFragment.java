@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.hayy.baqala.databinding.FragmentProfileBinding;
 import com.hayy.baqala.ui.auth.LoginActivity;
+import com.hayy.baqala.ui.orders.StoreAdminActivity;
 import com.hayy.baqala.utils.SessionManager;
 
 public class ProfileFragment extends Fragment {
@@ -42,6 +43,13 @@ public class ProfileFragment extends Fragment {
             binding.tvEmail.setVisibility(View.VISIBLE);
         } else {
             binding.tvEmail.setVisibility(View.GONE);
+        }
+
+        // إظهار لوحة الإدارة لمدير البقالة فقط
+        if (session.isAdmin()) {
+            binding.cardAdminPanel.setVisibility(View.VISIBLE);
+            binding.cardAdminPanel.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), StoreAdminActivity.class)));
         }
 
         binding.btnLogout.setOnClickListener(v -> showLogoutDialog());
