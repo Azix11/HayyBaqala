@@ -30,15 +30,19 @@
                 app:layout_collapseMode="parallax"/>
 
 
+            <!-- زر الرجوع - حجم أكبر ومنطقة ضغط واسعة -->
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="12dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/bg_circle_white"
                 android:src="@drawable/ic_back"
-                android:padding="8dp"
+                android:padding="10dp"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:contentDescription="رجوع"
                 app:layout_collapseMode="pin"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -186,7 +190,38 @@
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:paddingStart="16dp"
-                android:paddingBottom="12dp"/>
+                android:paddingBottom="8dp"/>
+
+            <!-- حقل ملاحظات الطلب العامة - فوق المنتجات -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:hint="📝 أوصف طلبك (ملاحظات عامة للطلب)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etOrderNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:minLines="2"
+                        android:maxLines="4"
+                        android:inputType="textMultiLine"
+                        android:gravity="top|start"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <!-- Empty State -->
             <TextView
