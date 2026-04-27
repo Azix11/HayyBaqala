@@ -29,7 +29,7 @@ public interface CartDao {
     @Query("SELECT COUNT(*) FROM cart_items WHERE user_id = :userId")
     int getCartItemCount(int userId);
 
-    @Query("SELECT SUM(price * quantity) FROM cart_items WHERE user_id = :userId")
+    @Query("SELECT COALESCE(SUM(price * quantity), 0.0) FROM cart_items WHERE user_id = :userId")
     double getCartTotal(int userId);
 
     @Query("DELETE FROM cart_items WHERE user_id = :userId")
