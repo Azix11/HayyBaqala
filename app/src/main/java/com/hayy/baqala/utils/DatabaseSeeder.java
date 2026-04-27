@@ -4,6 +4,7 @@ import android.content.Context;
 import com.hayy.baqala.database.AppDatabase;
 import com.hayy.baqala.database.entities.Product;
 import com.hayy.baqala.database.entities.Store;
+import com.hayy.baqala.database.entities.User;
 import java.util.List;
 
 public class DatabaseSeeder {
@@ -13,6 +14,10 @@ public class DatabaseSeeder {
 
         List<Store> stores = db.storeDao().getAllStores();
         if (!stores.isEmpty()) return;
+
+        // حساب مدير البقالة
+        User adminUser = new User("مدير البقالة", Constants.STORE_ADMIN_PHONE, "");
+        db.userDao().insertUser(adminUser);
 
         // إضافة بقالات تجريبية
         Store store1 = new Store();
@@ -36,8 +41,8 @@ public class DatabaseSeeder {
         store2.description = "أكبر تشكيلة من المنتجات الطازجة";
         store2.address = "حي العليا، الرياض";
         store2.phone = "0507654321";
-        store2.latitude = 24.7200;
-        store2.longitude = 46.6900;
+        store2.latitude = 24.6877;
+        store2.longitude = 46.7219;
         store2.rating = 4.8f;
         store2.isOpen = true;
         store2.deliveryAvailable = true;
@@ -52,8 +57,8 @@ public class DatabaseSeeder {
         store3.description = "كل احتياجاتك اليومية";
         store3.address = "حي الملقا، الرياض";
         store3.phone = "0509876543";
-        store3.latitude = 24.7500;
-        store3.longitude = 46.6400;
+        store3.latitude = 24.7741;
+        store3.longitude = 46.6384;
         store3.rating = 4.2f;
         store3.isOpen = true;
         store3.deliveryAvailable = false;

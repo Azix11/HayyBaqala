@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background">
 
+    <!-- Header (fixed, outside ScrollView so back button never scrolls away) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/primary"
+        android:padding="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <!-- Header -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_back"
+            android:background="@null"
+            app:tint="@color/white"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="رجوع"/>
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/primary"
-            android:padding="20dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_weight="1"
+            android:text="تتبع الطلب"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_back"
-                android:background="@null"
-                app:tint="@color/white"
-                android:layout_marginEnd="12dp"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="تتبع الطلب"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -232,7 +235,6 @@
 
                     </LinearLayout>
 
-                    <!-- Line -->
                     <View
                         android:layout_width="2dp"
                         android:layout_height="30dp"
@@ -279,7 +281,6 @@
 
                     </LinearLayout>
 
-                    <!-- Line -->
                     <View
                         android:layout_width="2dp"
                         android:layout_height="30dp"
@@ -326,7 +327,6 @@
 
                     </LinearLayout>
 
-                    <!-- Line -->
                     <View
                         android:layout_width="2dp"
                         android:layout_height="30dp"
@@ -377,5 +377,6 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>
