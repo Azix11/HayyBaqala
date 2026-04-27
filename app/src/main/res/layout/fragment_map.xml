@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <!-- My Location Button -->
+    <!-- زر تحديد الموقع - على اليسار بعيداً عن أزرار التكبير/التصغير -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnMyLocation"
         android:layout_width="wrap_content"
@@ -52,6 +52,6 @@
         app:backgroundTint="@color/white"
         app:tint="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
