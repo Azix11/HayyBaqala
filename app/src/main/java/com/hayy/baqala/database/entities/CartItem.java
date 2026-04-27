@@ -8,31 +8,31 @@ import androidx.room.ColumnInfo;
 public class CartItem {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
     @ColumnInfo(name = "user_id")
-    public int userId;
+    private int userId;
 
     @ColumnInfo(name = "product_id")
-    public int productId;
+    private int productId;
 
     @ColumnInfo(name = "store_id")
-    public int storeId;
+    private int storeId;
 
     @ColumnInfo(name = "product_name")
-    public String productName;
+    private String productName;
 
     @ColumnInfo(name = "product_image")
-    public String productImage;
+    private String productImage;
 
     @ColumnInfo(name = "price")
-    public double price;
+    private double price;
 
     @ColumnInfo(name = "quantity")
-    public int quantity;
+    private int quantity;
 
     @ColumnInfo(name = "notes")
-    public String notes;
+    private String notes;
 
     public CartItem() {}
 
