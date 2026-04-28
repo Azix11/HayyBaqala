@@ -13,27 +13,27 @@ import com.hayy.baqala.utils.DatabaseSeeder;
 import com.hayy.baqala.utils.SessionManager;
 
 @SuppressLint("CustomSplashScreen")
-public class SplashActivity extends AppCompatActivity {
+    public class SplashActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+            protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        setContentView(R.layout.activity_splash);
 
-        // تهيئة البيانات التجريبية
-        DatabaseSeeder.seedIfEmpty(this);
+                // تهيئة البيانات التجريبية على خيط منفصل
+                new Thread(() -> DatabaseSeeder.seedIfEmpty(this)).start();
 
-        // الانتقال بعد 2 ثانية
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            SessionManager session = SessionManager.getInstance(this);
-            Intent intent;
-            if (session.isLoggedIn()) {
-                intent = new Intent(this, HomeActivity.class);
-            } else {
-                intent = new Intent(this, LoginActivity.class);
+                // الانتقال بعد 2 ثانية
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                SessionManager session = SessionManager.getInstance(this);
+                                Intent intent;
+                                if (session.isLoggedIn()) {
+                                                    intent = new Intent(this, HomeActivity.class);
+                                } else {
+                                                    intent = new Intent(this, LoginActivity.class);
+                                }
+                                startActivity(intent);
+                                finish();
+                }, 2000);
             }
-            startActivity(intent);
-            finish();
-        }, 2000);
     }
-}
