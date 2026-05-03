@@ -123,11 +123,50 @@
 
                 <TextView
                     android:id="@+id/tvDelivery"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="توصيل متاح"
                     android:textSize="13sp"
                     android:textColor="@color/text_secondary"
+                    android:paddingStart="4dp"/>
+
+                <!-- Distance -->
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="— كم"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <!-- Delivery time row -->
+            <LinearLayout
+                android:id="@+id/layoutDeliveryTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_delivery"
+                    app:tint="@color/text_hint"/>
+
+                <TextView
+                    android:id="@+id/tvDeliveryTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="وقت التوصيل: — دقيقة"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_hint"
                     android:paddingStart="4dp"/>
 
             </LinearLayout>

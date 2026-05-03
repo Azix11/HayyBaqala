@@ -1,6 +1,7 @@
 package com.hayy.baqala.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.ColumnInfo;
 
@@ -50,6 +51,9 @@ public class Order {
 
     @ColumnInfo(name = "updated_at")
     public long updatedAt;
+
+    @Ignore
+    public String firestoreId;
 
     public Order() {}
 

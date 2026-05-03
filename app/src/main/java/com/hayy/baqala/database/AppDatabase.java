@@ -23,7 +23,7 @@ import com.hayy.baqala.database.entities.User;
         CartItem.class,
         Order.class
     },
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {

@@ -77,16 +77,56 @@
                     style="@style/InputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone_number"
+                    android:hint="الاسم أو رقم الجوال"
                     app:startIconDrawable="@drawable/ic_phone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"
+                        android:inputType="textVisiblePassword"
                         android:textSize="16sp"
-                        android:maxLength="10"/>
+                        android:maxLength="20"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Admin: Username Input (hidden by default) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilUsername"
+                    style="@style/InputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username"
+                    android:visibility="gone"
+                    app:startIconDrawable="@drawable/ic_person">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textSize="16sp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Admin: Password Input (hidden by default) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassword"
+                    style="@style/InputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textSize="16sp"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,6 +138,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="@string/login"/>
+
+                <!-- Admin Toggle Link -->
+                <TextView
+                    android:id="@+id/tvAdminToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/admin_login"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <!-- Divider -->
                 <LinearLayout

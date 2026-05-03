@@ -13,6 +13,8 @@ public class SessionManager {
     private static final String KEY_USER_EMAIL = "userEmail";
     private static final String KEY_LOGIN_TYPE = "loginType";
     private static final String KEY_IS_ADMIN = "isAdmin";
+    private static final String KEY_FIRESTORE_USER_ID = "firestoreUserId";
+    private static final String KEY_USERNAME = "username";
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -41,6 +43,32 @@ public class SessionManager {
         editor.apply();
     }
 
+    public void createFirestoreLoginSession(String firestoreId, String name, String username) {
+        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putString(KEY_FIRESTORE_USER_ID, firestoreId);
+        editor.putString(KEY_USER_NAME, name);
+        editor.putString(KEY_USERNAME, username);
+        editor.putString(KEY_USER_PHONE, "");
+        editor.putString(KEY_USER_EMAIL, "");
+        editor.putString(KEY_LOGIN_TYPE, Constants.LOGIN_PHONE);
+        editor.putBoolean(KEY_IS_ADMIN, false);
+        editor.putInt(KEY_USER_ID, firestoreId.hashCode() & 0x7FFFFFFF);
+        editor.apply();
+    }
+
+    public void createAdminLoginSession(String username) {
+        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putInt(KEY_USER_ID, 0);
+        editor.putString(KEY_FIRESTORE_USER_ID, "admin");
+        editor.putString(KEY_USER_NAME, username);
+        editor.putString(KEY_USERNAME, username);
+        editor.putString(KEY_USER_PHONE, Constants.STORE_ADMIN_PHONE);
+        editor.putString(KEY_USER_EMAIL, "");
+        editor.putString(KEY_LOGIN_TYPE, Constants.LOGIN_ADMIN);
+        editor.putBoolean(KEY_IS_ADMIN, true);
+        editor.apply();
+    }
+
     public boolean isAdmin() {
         return pref.getBoolean(KEY_IS_ADMIN, false);
     }
@@ -51,6 +79,14 @@ public class SessionManager {
 
     public int getUserId() {
         return pref.getInt(KEY_USER_ID, -1);
+    }
+
+    public String getFirestoreUserId() {
+        return pref.getString(KEY_FIRESTORE_USER_ID, "");
+    }
+
+    public String getUsername() {
+        return pref.getString(KEY_USERNAME, "");
     }
 
     public String getUserName() {

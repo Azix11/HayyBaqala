@@ -36,6 +36,9 @@ public class Constants {
 
     // Store Admin
     public static final String STORE_ADMIN_PHONE = "0500000000";
+    public static final String ADMIN_USERNAME = "admin";
+    public static final String ADMIN_PASSWORD = "admin";
+    public static final String LOGIN_ADMIN = "admin";
 
     // Shared Preferences
     public static final String PREF_NAME = "HayyBaqalaSession";

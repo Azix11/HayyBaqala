@@ -1,6 +1,7 @@
 package com.hayy.baqala.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.ColumnInfo;
 
@@ -9,6 +10,9 @@ public class Product {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
+
+    @Ignore
+    public String firestoreId;
 
     @ColumnInfo(name = "store_id")
     public int storeId;

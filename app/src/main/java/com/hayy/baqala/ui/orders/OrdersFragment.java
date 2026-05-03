@@ -1,8 +1,6 @@
 package com.hayy.baqala.ui.orders;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,76 +8,69 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.hayy.baqala.database.AppDatabase;
 import com.hayy.baqala.database.entities.Order;
 import com.hayy.baqala.databinding.FragmentOrdersBinding;
+import com.hayy.baqala.utils.FirestoreRepository;
 import com.hayy.baqala.utils.SessionManager;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class OrdersFragment extends Fragment {
 
     private FragmentOrdersBinding binding;
-        private AppDatabase db;
-        private SessionManager session;
-        private final ExecutorService executor = Executors.newSingleThreadExecutor();
-        private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private SessionManager session;
 
     @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                                                              @Nullable ViewGroup container,
-                                                              @Nullable Bundle savedInstanceState) {
-                    binding = FragmentOrdersBinding.inflate(inflater, container, false);
-                    return binding.getRoot();
-        }
-
     @Override
-        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-                    super.onViewCreated(view, savedInstanceState);
-
-            db = AppDatabase.getInstance(requireContext());
-                    session = SessionManager.getInstance(requireContext());
-
-            loadOrders();
-        }
-
-    @Override
-        public void onResume() {
-                    super.onResume();
-                    loadOrders();
-        }
-
-    private void loadOrders() {
-                int userId = session.getUserId();
-                executor.execute(() -> {
-                                List<Order> orders = db.orderDao().getOrdersByUser(userId);
-                                mainHandler.post(() -> {
-                                                    if (binding == null) return;
-                                                    if (orders != null && !orders.isEmpty()) {
-                                                                            binding.layoutEmpty.setVisibility(View.GONE);
-                                                                            binding.rvOrders.setVisibility(View.VISIBLE);
-                                                                            OrdersAdapter adapter = new OrdersAdapter(requireContext(), orders);
-                                                                            binding.rvOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
-                                                                            binding.rvOrders.setAdapter(adapter);
-                                                    } else {
-                                                                            binding.layoutEmpty.setVisibility(View.VISIBLE);
-                                                                            binding.rvOrders.setVisibility(View.GONE);
-                                                    }
-                                });
-                });
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentOrdersBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-        public void onDestroyView() {
-                    super.onDestroyView();
-                    binding = null;
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        session = SessionManager.getInstance(requireContext());
+        loadOrders();
+    }
 
     @Override
-        public void onDestroy() {
-                    super.onDestroy();
-                    executor.shutdown();
-        }
+    public void onResume() {
+        super.onResume();
+        loadOrders();
+    }
+
+    private void loadOrders() {
+        String userId = session.getFirestoreUserId();
+        FirestoreRepository.getInstance().getOrdersByUser(userId, new FirestoreRepository.Callback<List<Order>>() {
+            @Override
+            public void onSuccess(List<Order> orders) {
+                if (binding == null) return;
+                if (orders != null && !orders.isEmpty()) {
+                    binding.layoutEmpty.setVisibility(View.GONE);
+                    binding.rvOrders.setVisibility(View.VISIBLE);
+                    OrdersAdapter adapter = new OrdersAdapter(requireContext(), orders);
+                    binding.rvOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    binding.rvOrders.setAdapter(adapter);
+                } else {
+                    binding.layoutEmpty.setVisibility(View.VISIBLE);
+                    binding.rvOrders.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onError(String message) {
+                if (binding != null) {
+                    binding.layoutEmpty.setVisibility(View.VISIBLE);
+                    binding.rvOrders.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

@@ -1,6 +1,7 @@
 package com.hayy.baqala.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.ColumnInfo;
 
@@ -33,6 +34,9 @@ public class CartItem {
 
     @ColumnInfo(name = "notes")
     private String notes;
+
+    @Ignore
+    public String firestoreUserId;
 
     public CartItem() {}
 
