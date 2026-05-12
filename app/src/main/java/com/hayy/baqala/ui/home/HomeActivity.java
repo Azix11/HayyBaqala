@@ -40,6 +40,10 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    public void navigateToOrders() {
+        binding.bottomNav.setSelectedItemId(R.id.nav_orders);
+    }
+
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()

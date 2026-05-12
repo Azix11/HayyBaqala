@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.hayy.baqala.databinding.FragmentProfileBinding;
 import com.hayy.baqala.ui.auth.LoginActivity;
+import com.hayy.baqala.ui.home.HomeActivity;
 import com.hayy.baqala.ui.orders.StoreAdminActivity;
 import com.hayy.baqala.utils.SessionManager;
 
@@ -51,6 +52,12 @@ public class ProfileFragment extends Fragment {
             binding.cardAdminPanel.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), StoreAdminActivity.class)));
         }
+
+        binding.cardMyOrders.setOnClickListener(v -> {
+            if (getActivity() instanceof HomeActivity) {
+                ((HomeActivity) getActivity()).navigateToOrders();
+            }
+        });
 
         binding.btnLogout.setOnClickListener(v -> showLogoutDialog());
     }

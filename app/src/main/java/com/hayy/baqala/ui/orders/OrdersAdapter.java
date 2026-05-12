@@ -18,8 +18,8 @@ import java.util.Locale;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewHolder> {
 
-    private Context context;
-    private List<Order> orders;
+    private final Context context;
+    private final List<Order> orders;
 
     public OrdersAdapter(Context context, List<Order> orders) {
         this.context = context;
@@ -37,23 +37,23 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orders.get(position);
 
-        holder.tvOrderNumber.setText("طلب #" + order.getId());
+        String shortId = (order.firestoreId != null && order.firestoreId.length() >= 6)
+                ? order.firestoreId.substring(0, 6).toUpperCase() : String.valueOf(position + 1);
+        holder.tvOrderNumber.setText("طلب #" + shortId);
         holder.tvStoreName.setText(order.getStoreName());
         holder.tvTotal.setText(String.format("%.2f ر.س", order.getGrandTotal()));
 
-        // التاريخ
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault());
         holder.tvDate.setText(sdf.format(new Date(order.getCreatedAt())));
 
-        // نوع الطلب
-        if (order.getDeliveryType().equals(Constants.DELIVERY_HOME)) {
+        if (Constants.DELIVERY_HOME.equals(order.getDeliveryType())) {
             holder.tvDeliveryType.setText("🚚 توصيل");
         } else {
             holder.tvDeliveryType.setText("🏪 استلام");
         }
 
-        // حالة الطلب
-        switch (order.getStatus()) {
+        String status = order.getStatus() != null ? order.getStatus() : "";
+        switch (status) {
             case Constants.STATUS_PENDING:
                 holder.tvStatus.setText("⏳ قيد الانتظار");
                 holder.tvStatus.setTextColor(context.getColor(R.color.status_pending));
@@ -81,8 +81,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
         }
 
         holder.itemView.setOnClickListener(v -> {
+            if (order.firestoreId == null || order.firestoreId.isEmpty()) return;
             Intent intent = new Intent(context, OrderTrackingActivity.class);
-            intent.putExtra(Constants.KEY_ORDER_ID, order.getId());
+            intent.putExtra("firestore_order_id", order.firestoreId);
             context.startActivity(intent);
         });
     }
