@@ -2,7 +2,6 @@ package com.hayy.baqala.ui.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +20,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.hayy.baqala.R;
-import com.hayy.baqala.database.AppDatabase;
 import com.hayy.baqala.database.entities.Store;
 import com.hayy.baqala.databinding.FragmentMapBinding;
 import com.hayy.baqala.utils.Constants;
+import com.hayy.baqala.utils.FirestoreRepository;
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -32,7 +31,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FragmentMapBinding binding;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private AppDatabase db;
 
     @Nullable
     @Override
@@ -47,7 +45,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        db = AppDatabase.getInstance(requireContext());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
         SupportMapFragment mapFragment = (SupportMapFragment)
@@ -95,26 +92,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void loadStoresOnMap() {
-        List<Store> stores = db.storeDao().getAllStores();
-        if (stores == null || mMap == null) return;
-
-        for (Store store : stores) {
-            LatLng storeLocation = new LatLng(store.getLatitude(), store.getLongitude());
-            String snippet = store.isOpen() ? "مفتوح الآن" : "مغلق";
-            if (store.isDeliveryAvailable()) {
-                snippet += " • توصيل متاح";
-            }
-
-            mMap.addMarker(new MarkerOptions()
-                    .position(storeLocation)
-                    .title(store.getName())
-                    .snippet(snippet)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-        }
-
-        // تحريك الكاميرا للرياض
+        // تحريك الكاميرا للرياض أولاً بينما تُحمَّل البيانات
         LatLng riyadh = new LatLng(24.7136, 46.6753);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(riyadh, Constants.DEFAULT_ZOOM));
+
+        FirestoreRepository.getInstance().getStores(new FirestoreRepository.Callback<List<Store>>() {
+            @Override
+            public void onSuccess(List<Store> stores) {
+                if (stores == null || mMap == null) return;
+
+                for (Store store : stores) {
+                    if (store.getLatitude() == 0 && store.getLongitude() == 0) continue;
+
+                    LatLng storeLocation = new LatLng(store.getLatitude(), store.getLongitude());
+                    String snippet = store.isOpen() ? "مفتوح الآن" : "مغلق";
+                    if (store.isDeliveryAvailable()) snippet += " • توصيل متاح";
+
+                    float markerColor = store.isOpen()
+                            ? BitmapDescriptorFactory.HUE_GREEN
+                            : BitmapDescriptorFactory.HUE_RED;
+
+                    mMap.addMarker(new MarkerOptions()
+                            .position(storeLocation)
+                            .title(store.getName())
+                            .snippet(snippet)
+                            .icon(BitmapDescriptorFactory.defaultMarker(markerColor)));
+                }
+            }
+
+            @Override
+            public void onError(String message) {}
+        });
     }
 
     @Override
