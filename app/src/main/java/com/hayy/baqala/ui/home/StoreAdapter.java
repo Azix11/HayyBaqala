@@ -57,10 +57,10 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
         boolean hasDelivery = store.isDeliveryAvailable();
         if (hasDelivery) {
             holder.tvDelivery.setText("توصيل متاح • " + store.getDeliveryFee() + " ر.س");
-            holder.tvDelivery.setVisibility(View.VISIBLE);
         } else {
             holder.tvDelivery.setText("استلام فقط");
         }
+        holder.tvDelivery.setVisibility(View.VISIBLE);
 
         // Distance and delivery time
         if (userLat != 0 && userLon != 0 && store.getLatitude() != 0 && store.getLongitude() != 0) {

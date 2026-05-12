@@ -13,29 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.hayy.baqala.R;
-import com.hayy.baqala.database.AppDatabase;
 import com.hayy.baqala.database.entities.CartItem;
 import com.hayy.baqala.database.entities.Product;
+import com.hayy.baqala.utils.FirestoreRepository;
 import com.hayy.baqala.utils.SessionManager;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    private Context context;
-    private List<Product> products;
-    private int storeId;
-    private AppDatabase db;
-    private SessionManager session;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Context context;
+    private final List<Product> products;
+    private final int storeId;
+    private final SessionManager session;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public ProductAdapter(Context context, List<Product> products, int storeId) {
         this.context = context;
         this.products = products;
         this.storeId = storeId;
-        this.db = AppDatabase.getInstance(context);
         this.session = SessionManager.getInstance(context);
     }
 
@@ -60,38 +55,58 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.tvUnit.setVisibility(View.GONE);
         }
 
-        // تم تعديل الزر ليرسل المنتج مباشرة بدون ملاحظات فردية
-        holder.btnAddToCart.setOnClickListener(v -> {
-            addToCart(product);
-        });
+        holder.btnAddToCart.setOnClickListener(v -> addToCart(product));
     }
 
     private void addToCart(Product product) {
-        int userId = session.getUserId();
-        if (userId == -1) {
+        String firestoreUserId = session.getFirestoreUserId();
+        if (firestoreUserId.isEmpty()) {
             Toast.makeText(context, "يرجى تسجيل الدخول", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        executor.execute(() -> {
-            CartItem existingItem = db.cartDao().getCartItemByProduct(userId, product.getId());
+        FirestoreRepository.getInstance().getCart(firestoreUserId, new FirestoreRepository.Callback<List<CartItem>>() {
+            @Override
+            public void onSuccess(List<CartItem> cartItems) {
+                CartItem existing = null;
+                if (cartItems != null) {
+                    for (CartItem c : cartItems) {
+                        if (c.getProductId() == product.getId()) {
+                            existing = c;
+                            break;
+                        }
+                    }
+                }
 
-            if (existingItem != null) {
-                existingItem.setQuantity(existingItem.getQuantity() + 1);
-                db.cartDao().updateCartItem(existingItem);
-                mainHandler.post(() -> Toast.makeText(context, "تمت الإضافة ✓", Toast.LENGTH_SHORT).show());
-            } else {
-                CartItem cartItem = new CartItem(
-                        userId,
-                        product.getId(),
-                        storeId,
-                        product.getName(),
-                        product.getPrice()
-                );
-                // حذفنا سطر setNotes هنا ليكون الوصف عاماً للطلب كاملاً
-                db.cartDao().insertCartItem(cartItem);
-                mainHandler.post(() -> Toast.makeText(context, "أضيف للسلة ✓", Toast.LENGTH_SHORT).show());
+                if (existing != null) {
+                    int newQty = existing.getQuantity() + 1;
+                    FirestoreRepository.getInstance().updateCartItemQuantity(
+                            firestoreUserId, product.getId(), newQty,
+                            new FirestoreRepository.Callback<Void>() {
+                                @Override public void onSuccess(Void v) {
+                                    mainHandler.post(() ->
+                                        Toast.makeText(context, "تمت الإضافة ✓", Toast.LENGTH_SHORT).show());
+                                }
+                                @Override public void onError(String e) {}
+                            });
+                } else {
+                    CartItem newItem = new CartItem(
+                            session.getUserId(), product.getId(), storeId,
+                            product.getName(), product.getPrice());
+                    newItem.firestoreUserId = firestoreUserId;
+                    FirestoreRepository.getInstance().addCartItem(firestoreUserId, newItem,
+                            new FirestoreRepository.Callback<Void>() {
+                                @Override public void onSuccess(Void v) {
+                                    mainHandler.post(() ->
+                                        Toast.makeText(context, "أضيف للسلة ✓", Toast.LENGTH_SHORT).show());
+                                }
+                                @Override public void onError(String e) {}
+                            });
+                }
             }
+
+            @Override
+            public void onError(String e) {}
         });
     }
 
@@ -112,7 +127,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvUnit = itemView.findViewById(R.id.tvUnit);
             btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
-            // تم حذف سطر تعريف etNotes لعدم الحاجة له بعد الآن
         }
     }
 }
